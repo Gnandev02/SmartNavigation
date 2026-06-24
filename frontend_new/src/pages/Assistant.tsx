@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useVoice } from '../context/VoiceContext';
 import { useVision } from '../hooks/useVision';
 import './Assistant.css';

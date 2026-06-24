@@ -7,7 +7,7 @@ const Caregiver: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [, setSocket] = useState<Socket | null>(null);
   const [wsStatus, setWsStatus] = useState('Disconnected');
   const [alerts, setAlerts] = useState<any[]>([]);
   const [location, setLocation] = useState<{lat: number, lng: number} | null>(null);

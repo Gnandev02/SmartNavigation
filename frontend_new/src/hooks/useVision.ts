@@ -7,7 +7,7 @@ import Tesseract from 'tesseract.js';
 export const useVision = () => {
   const [isModelLoading, setIsModelLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [model, setModel] = useState<any>(null);
+  const [model] = useState<any>(null);
 
   // We load a very basic model dynamically or just mock it if it's too heavy for browser without a specific file
   // Wait, the user asked for YOLOv8. We would normally load an ONNX or tfjs converted model:
