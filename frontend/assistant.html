@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SmartNav | Voice Assistant</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/assistant.css">
+</head>
+<body class="assistant-body">
+    <div id="app" class="assistant-container">
+        
+        <!-- Live Camera Background -->
+        <video id="camera-feed" autoplay playsinline class="assistant-video-bg"></video>
+        <canvas id="overlay-canvas" class="assistant-video-bg" style="pointer-events: none; z-index: 0;"></canvas>
+        <canvas id="capture-canvas" style="display: none;"></canvas>
+
+        <!-- UI Overlay -->
+        <div class="overlay-ui">
+            <header class="assistant-header">
+                <a href="index.html" class="btn btn-secondary btn-back" aria-label="Back to home">← Exit</a>
+                <div class="status-indicator">
+                    <span class="dot" id="online-dot"></span> <span id="online-status">Online</span>
+                </div>
+            </header>
+
+            <div class="status-panel">
+                <h1 id="status-text" aria-live="polite">Say "Hey SmartNav"</h1>
+                <p id="feedback-text" aria-live="assertive">Tap the mic to begin.</p>
+            </div>
+
+            <div class="controls">
+                <button id="mic-btn" class="big-btn" aria-label="Microphone Control: Tap to listen">
+                    <span id="mic-icon" style="font-size: 40px;">🎙️</span>
+                </button>
+                <button id="sos-btn" class="big-btn sos" aria-label="Emergency SOS: Double tap to trigger">
+                    <span style="font-size: 24px;">SOS</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/global-assistant.js"></script>
+    <script src="js/assistant.js"></script>
+</body>
+</html>

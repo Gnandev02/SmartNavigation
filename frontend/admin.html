@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SmartNav</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="sticky-nav">
+        <div class="container nav-container">
+            <div class="logo">SmartNav Admin</div>
+            <ul class="nav-links">
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container section" id="dashboard-section" style="display: block;">
+        <h2 class="section-heading" style="text-align: left;">Platform Analytics</h2>
+        <div class="features-grid">
+            <div class="dashboard-card">
+                <h3 class="card-heading">Total Users</h3>
+                <div id="stat-users" style="font-size: 48px; color: var(--primary-color); font-weight: bold;">--</div>
+            </div>
+            <div class="dashboard-card">
+                <h3 class="card-heading">Active Vision Sessions</h3>
+                <div id="stat-vision" style="font-size: 48px; color: var(--secondary-color); font-weight: bold;">--</div>
+            </div>
+            <div class="dashboard-card">
+                <h3 class="card-heading">Recent SOS Alerts</h3>
+                <div id="stat-sos" style="font-size: 48px; color: var(--error-color); font-weight: bold;">--</div>
+            </div>
+        </div>
+
+        <div class="dashboard-card" style="margin-top: 32px;">
+            <h3 class="card-heading">User Management</h3>
+            <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 16px;">
+                <thead>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <th style="padding: 12px; color: var(--text-secondary);">ID</th>
+                        <th style="padding: 12px; color: var(--text-secondary);">Email</th>
+                        <th style="padding: 12px; color: var(--text-secondary);">Role</th>
+                        <th style="padding: 12px; color: var(--text-secondary);">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- Data populated via JS -->
+                    <tr>
+                        <td colspan="4" style="padding: 12px; text-align: center;">Loading data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/global-assistant.js"></script>
+</body>
+</html>

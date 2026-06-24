@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregiver Dashboard | SmartNav</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .ws-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .ws-connected { background: rgba(34, 197, 94, 0.2); color: var(--success-color); }
+        .ws-disconnected { background: rgba(239, 68, 68, 0.2); color: var(--error-color); }
+        
+        .alert-item {
+            padding: 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-10px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sticky-nav">
+        <div class="container nav-container">
+            <div class="logo">🧭 SmartNav Caregiver</div>
+            <ul class="nav-links">
+                <li><span id="ws-badge" class="ws-status ws-disconnected">Disconnected</span></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Animated Background -->
+    <div class="premium-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <main class="container section" id="dashboard-section" style="display: block;">
+        <div class="grid-container" style="grid-template-columns: 1fr 2fr;">
+            <!-- Left Column: SOS & Contacts -->
+            <div>
+                <div class="dashboard-card">
+                    <h3 class="card-heading" style="color: var(--error-color);">🚨 Active Alerts</h3>
+                    <div id="sos-list" aria-live="assertive">
+                        <p class="text-small">No active alerts.</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3 class="card-heading">Emergency Contacts</h3>
+                    <ul style="list-style: none; color: var(--text-secondary); font-size: 14px;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid var(--border-subtle);">Primary: 911</li>
+                        <li style="padding: 8px 0;">Secondary: +1 555-0198</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column: Location & Activity -->
+            <div>
+                <div class="dashboard-card">
+                    <h3 class="card-heading">Real-Time Location tracking</h3>
+                    <div style="background: var(--bg-color); height: 200px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--border-subtle);">
+                        <p class="text-small">Map integration placeholder</p>
+                    </div>
+                    <p class="text-small" id="last-location">Waiting for location update...</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-heading">Activity Timeline</h3>
+                    <div id="activity-list" aria-live="polite">
+                        <p class="text-small">Connecting to stream...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/global-assistant.js"></script>
+</body>
+</html>

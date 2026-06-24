@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id               String             @id @default(uuid())
+  email            String             @unique
+  passwordHash     String
+  role             String             @default("USER") // USER, CAREGIVER, ADMIN
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  
+  contacts         EmergencyContact[]
+  voiceSessions    VoiceSession[]
+  locationHistory  LocationHistory[]
+  sosAlerts        SOSAlert[]
+  activityLogs     ActivityLog[]
+  settings         Settings?
+}
+
+model EmergencyContact {
+  id           String   @id @default(uuid())
+  name         String
+  phone        String
+  email        String?
+  relation     String?
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model VoiceSession {
+  id           String   @id @default(uuid())
+  startTime    DateTime @default(now())
+  endTime      DateTime?
+  duration     Int?
+  commandCount Int      @default(0)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model LocationHistory {
+  id           String   @id @default(uuid())
+  latitude     Float
+  longitude    Float
+  timestamp    DateTime @default(now())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model SOSAlert {
+  id           String   @id @default(uuid())
+  status       String   @default("ACTIVE") // ACTIVE, RESOLVED
+  latitude     Float?
+  longitude    Float?
+  triggeredAt  DateTime @default(now())
+  resolvedAt   DateTime?
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model ActivityLog {
+  id           String   @id @default(uuid())
+  action       String
+  details      String?
+  timestamp    DateTime @default(now())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Settings {
+  id           String   @id @default(uuid())
+  ttsSpeed     Float    @default(1.0)
+  highContrast Boolean  @default(false)
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+}
