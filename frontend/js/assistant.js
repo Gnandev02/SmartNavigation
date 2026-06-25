@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const calculateDirection = (bboxX, bboxWidth, videoWidth) => {
         const centerX = bboxX + (bboxWidth / 2);
         const ratio = centerX / videoWidth;
-        if (ratio < 0.33) return "on your left";
-        if (ratio > 0.67) return "on your right";
-        return "ahead";
+        if (ratio < 0.33) return { pos: "on your left", action: "move right" };
+        if (ratio > 0.67) return { pos: "on your right", action: "move left" };
+        return { pos: "ahead", action: "move left or right" };
     };
 
     const processDetections = (predictions) => {
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         const now = Date.now();
         // If GlobalAssistant is actively listening or speaking a command response, we shouldn't interrupt with ambient detections
-        const isGlobalBusy = window.GlobalAssistant && 
+        const isGlobalBusy = window.GlobalAssistant && window.GlobalAssistant.globalWidget &&
                              (window.GlobalAssistant.globalWidget.style.background === 'rgb(59, 130, 246)' /* speaking */ || 
                               window.GlobalAssistant.globalWidget.style.background === 'rgb(74, 222, 128)' /* listening strongly */);
 
@@ -119,7 +119,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const className = pred.class;
             const distance = calculateDistance(pred.bbox[3], video.videoHeight);
-            const direction = calculateDirection(pred.bbox[0], pred.bbox[2], video.videoWidth);
+            const dirInfo = calculateDirection(pred.bbox[0], pred.bbox[2], video.videoWidth);
+            const direction = dirInfo.pos;
+            const action = dirInfo.action;
             
             if (!detectionCooldowns[className] || (now - detectionCooldowns[className] > COOLDOWN_MS)) {
                 detectionCooldowns[className] = now;
@@ -127,13 +129,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let announcement = "";
                 if (['chair', 'table', 'person', 'car', 'truck', 'vehicle', 'bicycle', 'motorcycle', 'stop sign', 'traffic light'].includes(className) || true) {
                     if (['chair', 'table', 'car', 'truck', 'bicycle', 'motorcycle'].includes(className) && parseFloat(distance) < 2.0) {
-                        announcement = `Warning. ${className} detected ${distance} meters ${direction}.`;
+                        announcement = `Warning. ${className} detected ${distance} meters ${direction}. Please ${action}.`;
                     } else if (className === 'person') {
-                        announcement = `Person detected ${distance} meters ${direction}.`;
+                        announcement = `Person detected ${distance} meters ${direction}. Please ${action}.`;
                     } else if (className === 'stairs') {
-                        announcement = `Warning. Stairs detected ${direction}. Move carefully.`;
+                        announcement = `Warning. Stairs detected ${direction}. Please ${action} carefully.`;
                     } else {
-                        announcement = `${className} detected ${distance} meters ${direction}.`;
+                        announcement = `${className} detected ${distance} meters ${direction}. Please ${action}.`;
                     }
                     
                     speak(announcement);
