@@ -3,7 +3,7 @@
 const GlobalAssistant = {
     recognition: null,
     speechSynthesis: window.speechSynthesis,
-    isActive: sessionStorage.getItem('assistant_active') === 'true',
+    isActive: sessionStorage.getItem('assistant_active') !== 'false', // Default to true
     isListening: false,
     autoRestart: true,
     lastSpokenText: "",
@@ -32,7 +32,19 @@ const GlobalAssistant = {
         // Check if it should start automatically based on session storage
         if (this.isActive) {
             console.log("[GlobalAssistant] Session active. Starting automatically.");
-            this.startListening(true); // silent start
+            if (!sessionStorage.getItem('mic_granted')) {
+                // First time load, explicitly request mic to show prompt
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(() => {
+                    sessionStorage.setItem('mic_granted', 'true');
+                    this.startListening(true);
+                }).catch(e => {
+                    console.warn("Microphone not allowed on load:", e);
+                    this.isActive = false;
+                    sessionStorage.setItem('assistant_active', 'false');
+                });
+            } else {
+                this.startListening(true); // silent start
+            }
         }
 
         // Attach to specific Start Assistant buttons if they exist
@@ -274,7 +286,7 @@ const GlobalAssistant = {
                 await this.speak("Scrolling up.");
                 window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
             }
-            else if (command.includes("start detection")) {
+            else if (command.includes("start detection") || command.includes("launch website") || command.includes("launch web app") || command.includes("open website")) {
                 // If not on assistant.html, go there
                 if (!window.location.pathname.includes('assistant.html')) {
                     await this.navigateRoute('assistant.html', "Detection started. Opening camera.");
