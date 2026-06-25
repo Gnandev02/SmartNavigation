@@ -129,5 +129,33 @@
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
     70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(52, 211, 153, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+/* Mobile Friendly Adjustments */
+@media screen and (max-width: 768px) {
+    .overlay-ui {
+        padding: 16px;
+    }
+    .status-indicator {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    #status-text {
+        font-size: 24px;
+    }
+    #feedback-text {
+        font-size: 16px;
+    }
+    .big-btn {
+        width: 72px;
+        height: 72px;
+    }
+    .big-btn span {
+        font-size: 32px !important;
+    }
+    .sos {
+        width: 64px;
+        height: 64px;
+        font-size: 16px;
+    }
 }

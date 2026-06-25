@@ -131,10 +131,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         let hasObstacle = false;
 
         predictions.forEach(pred => {
-            if (pred.score < 0.5) return;
+            if (pred.score < 0.75) return; // Increased confidence threshold for better accuracy
             
             const className = pred.class;
             const distance = parseFloat(calculateDistance(pred.bbox[3], video.videoHeight, className));
+            
+            // Do not alert for objects further than 5 meters
+            if (distance > 5.0) return;
+
             const dirInfo = calculateDirection(pred.bbox[0], pred.bbox[2], video.videoWidth);
             const direction = dirInfo.pos;
             const action = dirInfo.action;
@@ -144,6 +148,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!isMovable && distance > 1.0) {
                 return; // Skip warning for stationary objects further than 1 meter
+            }
+
+            // If the object is not in the direct path ("ahead"), do not alert.
+            // This ensures the user is not warned if the path is clear to walk.
+            if (direction !== "ahead") {
+                return;
             }
 
             hasObstacle = true;
