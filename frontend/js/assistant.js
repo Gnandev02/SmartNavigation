@@ -88,11 +88,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- AI Detection Logic ---
-    const calculateDistance = (bboxHeight, videoHeight) => {
-        const focalLength = 500;
-        const realHeight = 1.5; 
-        const distance = (realHeight * focalLength) / (bboxHeight / videoHeight * 100);
-        return Math.max(0.5, Math.min(20, distance)).toFixed(1);
+    const calculateDistance = (bboxHeight, videoHeight, className) => {
+        // Estimate average real height in meters based on object class
+        let realHeight = 1.0; // default 1 meter
+        if (className === 'person') realHeight = 1.7;
+        else if (['car', 'truck', 'bus'].includes(className)) realHeight = 1.8;
+        else if (className === 'chair') realHeight = 0.9;
+        else if (className === 'table') realHeight = 0.8;
+        else if (className === 'cell phone' || className === 'remote') realHeight = 0.15;
+        else if (className === 'cup' || className === 'bottle') realHeight = 0.2;
+        
+        // Approximate focal length in pixels (heuristic for typical webcams)
+        const focalLength = videoHeight * 0.9; 
+        
+        // Distance = (Real Height * Focal Length) / Perceived Height (in pixels)
+        const distance = (realHeight * focalLength) / bboxHeight;
+        
+        // Clamp between 0.3 meters and 15 meters for realistic voice feedback
+        return Math.max(0.3, Math.min(15, distance)).toFixed(1);
     };
 
     const calculateDirection = (bboxX, bboxWidth, videoWidth) => {
@@ -118,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (pred.score < 0.5) return;
             
             const className = pred.class;
-            const distance = calculateDistance(pred.bbox[3], video.videoHeight);
+            const distance = calculateDistance(pred.bbox[3], video.videoHeight, className);
             const dirInfo = calculateDirection(pred.bbox[0], pred.bbox[2], video.videoWidth);
             const direction = dirInfo.pos;
             const action = dirInfo.action;
