@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let detectionCooldowns = {};
     const COOLDOWN_MS = 5000;
     let isDetectionRunning = false;
+    let lastGoAheadTime = 0;
 
     // --- State Update ---
     function updateState(newState, displayMsg = "") {
@@ -117,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const processDetections = (predictions) => {
-        if (!predictions || predictions.length === 0) return;
+        if (!predictions) return;
         
         const now = Date.now();
         // If GlobalAssistant is actively listening or speaking a command response, we shouldn't interrupt with ambient detections
@@ -127,34 +128,55 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (isGlobalBusy) return;
 
+        let hasObstacle = false;
+
         predictions.forEach(pred => {
             if (pred.score < 0.5) return;
             
             const className = pred.class;
-            const distance = calculateDistance(pred.bbox[3], video.videoHeight, className);
+            const distance = parseFloat(calculateDistance(pred.bbox[3], video.videoHeight, className));
             const dirInfo = calculateDirection(pred.bbox[0], pred.bbox[2], video.videoWidth);
             const direction = dirInfo.pos;
             const action = dirInfo.action;
             
+            const movableObjects = ['person', 'car', 'truck', 'vehicle', 'bicycle', 'motorcycle', 'bus', 'train', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe'];
+            const isMovable = movableObjects.includes(className);
+
+            if (!isMovable && distance > 1.0) {
+                return; // Skip warning for stationary objects further than 1 meter
+            }
+
+            hasObstacle = true;
+
             if (!detectionCooldowns[className] || (now - detectionCooldowns[className] > COOLDOWN_MS)) {
                 detectionCooldowns[className] = now;
                 
                 let announcement = "";
-                if (['chair', 'table', 'person', 'car', 'truck', 'vehicle', 'bicycle', 'motorcycle', 'stop sign', 'traffic light'].includes(className) || true) {
-                    if (['chair', 'table', 'car', 'truck', 'bicycle', 'motorcycle'].includes(className) && parseFloat(distance) < 2.0) {
-                        announcement = `Warning. ${className} detected ${distance} meters ${direction}. Please ${action}.`;
-                    } else if (className === 'person') {
-                        announcement = `Person detected ${distance} meters ${direction}. Please ${action}.`;
-                    } else if (className === 'stairs') {
+                if (isMovable) {
+                    if (className === 'person') {
+                        announcement = `Person detected ${distance.toFixed(1)} meters ${direction}. Please ${action}.`;
+                    } else {
+                        announcement = `Warning. ${className} detected ${distance.toFixed(1)} meters ${direction}. Please ${action}.`;
+                    }
+                } else {
+                    if (className === 'stairs') {
                         announcement = `Warning. Stairs detected ${direction}. Please ${action} carefully.`;
                     } else {
-                        announcement = `${className} detected ${distance} meters ${direction}. Please ${action}.`;
+                        announcement = `Warning. ${className} detected ${distance.toFixed(1)} meters ${direction}. Please ${action}.`;
                     }
-                    
-                    speak(announcement);
                 }
+                
+                speak(announcement);
             }
         });
+
+        if (!hasObstacle) {
+            const recentlyWarned = Object.values(detectionCooldowns).some(time => now - time < 3000);
+            if (!recentlyWarned && (now - lastGoAheadTime > COOLDOWN_MS)) {
+                lastGoAheadTime = now;
+                speak("Path is clear. Go ahead.");
+            }
+        }
     };
 
     const startObjectDetection = () => {
