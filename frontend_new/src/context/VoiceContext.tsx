@@ -51,8 +51,20 @@ export const VoiceProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       } else if (cmd.includes('stop') || cmd.includes('pause')) {
         speak("Stopping active assistance. I am still listening for the wake word.");
         setIsActiveListening(false);
+      } else if (cmd.includes('launch web app') || cmd.includes('start assistant') || cmd.includes('open assistant')) {
+        speak("Launching Web App.");
+        setTimeout(() => window.location.href = '/assistant', 1500);
+      } else if (cmd.includes('live demo') || cmd.includes('try live demo')) {
+        speak("Opening Live Demo.");
+        setTimeout(() => window.location.href = '/#demo', 1500);
+      } else if (cmd.includes('login') || cmd.includes('caregiver')) {
+        speak("Opening Caregiver Login.");
+        setTimeout(() => window.location.href = '/caregiver', 1500);
+      } else if (cmd.includes('admin')) {
+        speak("Opening Admin page.");
+        setTimeout(() => window.location.href = '/admin', 1500);
       } else {
-        speak("I didn't catch that command. You can ask me what is in front of you, or ask for help.");
+        speak("I didn't catch that command. You can ask me to Launch Web App, Try Live Demo, or ask for help.");
       }
     } catch (err) {
       speak("Sorry, I encountered an error executing that command.");
