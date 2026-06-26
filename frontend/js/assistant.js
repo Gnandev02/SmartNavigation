@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         else if (className === 'cup' || className === 'bottle') realHeight = 0.2;
         
         // Approximate focal length in pixels (heuristic for typical webcams)
-        const focalLength = videoHeight * 0.9; 
+        const focalLength = videoHeight * 0.4; 
         
         // Distance = (Real Height * Focal Length) / Perceived Height (in pixels)
         const distance = (realHeight * focalLength) / bboxHeight;
@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const calculateDirection = (bboxX, bboxWidth, videoWidth) => {
         const centerX = bboxX + (bboxWidth / 2);
         const ratio = centerX / videoWidth;
-        if (ratio < 0.33) return { pos: "on your left", action: "move right" };
-        if (ratio > 0.67) return { pos: "on your right", action: "move left" };
+        if (ratio < 0.4) return { pos: "on your left", action: "move right" };
+        if (ratio > 0.6) return { pos: "on your right", action: "move left" };
         return { pos: "ahead", action: "move left or right" };
     };
 
@@ -181,11 +181,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (!hasObstacle) {
-            const recentlyWarned = Object.values(detectionCooldowns).some(time => now - time < 3000);
-            if (!recentlyWarned && (now - lastGoAheadTime > COOLDOWN_MS)) {
-                lastGoAheadTime = now;
-                speak("Path is clear. Go ahead.");
-            }
+            // Suppressed "Path is clear" audio announcement to reduce noise
         }
     };
 
@@ -207,13 +203,32 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
                     
+                    // Draw Route Path Overlay (Safe Zone)
+                    ctx.fillStyle = 'rgba(74, 222, 128, 0.1)'; 
+                    ctx.fillRect(overlayCanvas.width * 0.4, 0, overlayCanvas.width * 0.2, overlayCanvas.height);
+                    
+                    ctx.strokeStyle = 'rgba(74, 222, 128, 0.4)';
+                    ctx.setLineDash([5, 15]);
+                    ctx.beginPath();
+                    ctx.moveTo(overlayCanvas.width * 0.4, 0);
+                    ctx.lineTo(overlayCanvas.width * 0.4, overlayCanvas.height);
+                    ctx.moveTo(overlayCanvas.width * 0.6, 0);
+                    ctx.lineTo(overlayCanvas.width * 0.6, overlayCanvas.height);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
                     predictions.forEach(prediction => {
                         const [x, y, width, height] = prediction.bbox;
-                        ctx.strokeStyle = '#4ade80';
+                        const dirInfo = calculateDirection(x, width, overlayCanvas.width);
+                        const isAhead = dirInfo.pos === "ahead";
+                        
+                        const color = isAhead ? '#ef4444' : '#4ade80'; // Red if blocking, green if safe
+                        
+                        ctx.strokeStyle = color;
                         ctx.lineWidth = 4;
                         ctx.strokeRect(x, y, width, height);
                         
-                        ctx.fillStyle = '#4ade80';
+                        ctx.fillStyle = color;
                         ctx.font = '18px Arial';
                         ctx.fillText(
                             `${prediction.class} (${Math.round(prediction.score * 100)}%)`, 
