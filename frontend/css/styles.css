@@ -717,3 +717,61 @@ input:focus {
     25% { transform: translateX(-4px); }
     75% { transform: translateX(4px); }
 }
+
+/* Comprehensive Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 100px;
+        text-align: center;
+        gap: calc(var(--spacing-unit) * 4);
+    }
+    
+    .hero-content p {
+        margin: 0 auto calc(var(--spacing-unit) * 5) auto;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .trust-indicators {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .demo-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+    }
+
+    .nav-links {
+        display: none; /* Hide standard links on mobile to save space. Could use a hamburger menu in future */
+    }
+    
+    .nav-container {
+        justify-content: center; /* Center the logo if links are hidden */
+    }
+    
+    .phone-mockup-wrapper::before {
+        width: 300px;
+        height: 300px;
+    }
+}
+
