@@ -44,19 +44,6 @@ const Home: React.FC = () => {
             <a href="#demo" className="btn btn-secondary">Try Live Demo</a>
           </div>
         </div>
-        <div className="phone-mockup-wrapper">
-          <div className="phone-mockup">
-            <div className="camera-preview"></div>
-            <div className="transcript-panel">
-              <p>Live Transcript</p>
-              <ul id="hero-transcript">
-                <li className="safe">Chair detected on your left.</li>
-                <li className="caution" style={{ opacity: 0.6 }}>Exit sign ahead.</li>
-                <li className="safe" style={{ opacity: 0.3 }}>Path is clear.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </header>
 
       {/* Features Section */}
