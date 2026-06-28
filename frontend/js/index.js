@@ -88,17 +88,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnDetect.addEventListener('click', async () => {
         if (!currentFile) return;
-        output.textContent = "Running YOLOv8 Object Detection...";
+        output.textContent = "Loading AI Model (COCO-SSD)...";
         btnDetect.disabled = true;
         
         try {
-            // Mocking token removed
-
-            const res = await API.vision.detect(currentFile);
-            output.textContent = `Result: ${res.message}`;
+            const img = document.getElementById('demo-preview');
+            const model = await cocoSsd.load();
+            output.textContent = "Analyzing image...";
+            const predictions = await model.detect(img);
+            
+            let message = "I didn't detect any objects.";
+            if (predictions.length > 0) {
+                const objectNames = predictions.map(p => p.class);
+                message = "I detected: " + objectNames.join(', ');
+            }
+            output.textContent = `Result: ${message}`;
             
             // Speak result
-            const utterance = new SpeechSynthesisUtterance(res.message);
+            const utterance = new SpeechSynthesisUtterance(message);
             SpeechSynthesis.speak(utterance);
         } catch (err) {
             output.textContent = `Error: ${err.message}`;
@@ -109,17 +116,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnOcr.addEventListener('click', async () => {
         if (!currentFile) return;
-        output.textContent = "Running EasyOCR...";
+        output.textContent = "Loading OCR Engine...";
         btnOcr.disabled = true;
         
         try {
-            // Mocking token removed
-
-            const res = await API.vision.readText(currentFile);
-            output.textContent = `Result: ${res.message}`;
+            const img = document.getElementById('demo-preview');
+            output.textContent = "Reading text from image...";
+            const result = await Tesseract.recognize(img, 'eng');
+            
+            const text = result.data.text.trim();
+            let message = "I couldn't read any text.";
+            if (text) {
+                message = "I read: " + text;
+            }
+            output.textContent = `Result: ${message}`;
             
             // Speak result
-            const utterance = new SpeechSynthesisUtterance(res.message);
+            const utterance = new SpeechSynthesisUtterance(message);
             SpeechSynthesis.speak(utterance);
         } catch (err) {
             output.textContent = `Error: ${err.message}`;
