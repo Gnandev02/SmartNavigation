@@ -1,4 +1,5 @@
 import express from 'express';
+import { exec } from 'child_process';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
@@ -90,6 +91,22 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Login failed' });
   }
+});
+
+// Command execution route (WARNING: High security risk, for local use only)
+app.post('/api/execute', (req, res) => {
+  const { command } = req.body;
+  if (!command) {
+    return res.status(400).json({ error: 'Command is required' });
+  }
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing command: ${error.message}`);
+      return res.status(500).json({ error: error.message, stderr });
+    }
+    res.json({ success: true, stdout, stderr });
+  });
 });
 
 io.on('connection', (socket) => {

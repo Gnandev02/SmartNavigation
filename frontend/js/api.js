@@ -49,12 +49,20 @@ const API = {
         detect: (blob) => {
             const fd = new FormData();
             fd.append('file', blob, 'image.jpg');
-            return API.request('/vision/detect', { method: 'POST', body: fd });
+            return fetch('http://localhost:8000/api/v1/vision/detect?lang=en', { method: 'POST', body: fd })
+                .then(res => {
+                    if (!res.ok) throw new Error('API request failed');
+                    return res.json();
+                });
         },
         readText: (blob) => {
             const fd = new FormData();
             fd.append('file', blob, 'image.jpg');
-            return API.request('/vision/read-text', { method: 'POST', body: fd });
+            return fetch('http://localhost:8000/api/v1/vision/read-text?lang=en', { method: 'POST', body: fd })
+                .then(res => {
+                    if (!res.ok) throw new Error('API request failed');
+                    return res.json();
+                });
         }
     },
 

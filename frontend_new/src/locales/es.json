@@ -1,0 +1,67 @@
+{
+  "nav": {
+    "features": "Características",
+    "live_demo": "Demostración",
+    "accessibility": "Accesibilidad",
+    "start_assistant": "Iniciar Asistente",
+    "login": "Iniciar Sesión"
+  },
+  "hero": {
+    "wcag": "WCAG 2.2 AA",
+    "voice_first": "Voz Primero",
+    "title": "Navega el Mundo con Independencia",
+    "subtitle": "Un asistente avanzado impulsado por IA diseñado para personas con discapacidad visual. Entiende tu entorno de manera segura usando solo tu teléfono y voz.",
+    "launch_web_app": "Lanzar App Web",
+    "try_live_demo": "Probar Demostración"
+  },
+  "features": {
+    "title": "Poderosas Capacidades de IA",
+    "detection_title": "Detección en Tiempo Real",
+    "detection_desc": "Identifica instantáneamente personas, puertas, escaleras y obstáculos cotidianos en tu camino usando visión por computadora avanzada.",
+    "ocr_title": "Lectura de Letreros",
+    "ocr_desc": "El reconocimiento óptico avanzado lee señales de dirección, números de habitación y advertencias en voz alta.",
+    "voice_title": "Control 100% por Voz",
+    "voice_desc": "Interactúa de manera totalmente manos libres. Solo di \"Hola SmartNav, ¿qué hay frente a mí?\"",
+    "sos_title": "SOS de Emergencia",
+    "sos_desc": "Comparte instantáneamente tu ubicación en vivo y alerta a tus cuidadores a través del panel conectado durante emergencias."
+  },
+  "footer": {
+    "desc": "Empoderando a las personas con discapacidad visual para navegar el mundo de manera independiente con IA de vanguardia.",
+    "platform": "Plataforma",
+    "voice_assistant": "Asistente de Voz",
+    "caregiver_dashboard": "Panel de Cuidadores",
+    "company": "Compañía",
+    "accessibility_statement": "Declaración de Accesibilidad",
+    "admin_portal": "Portal de Administración",
+    "rights": "© 2026 SmartNav Accesibilidad. Todos los derechos reservados."
+  },
+  "assistant": {
+    "idle_msg": "Toca el micrófono para empezar.",
+    "processing": "Procesando...",
+    "stopping": "Deteniendo asistencia activa. Sigo escuchando la palabra de activación.",
+    "launching_app": "Lanzando App Web.",
+    "opening_demo": "Abriendo demostración en vivo.",
+    "opening_caregiver": "Abriendo inicio de sesión para cuidadores.",
+    "opening_admin": "Abriendo página de administración.",
+    "error_command": "No entendí ese comando. Puedes pedirme Lanzar App Web, Probar Demostración o pedir ayuda.",
+    "error_exec": "Lo siento, encontré un error al ejecutar ese comando.",
+    "sos_activated": "SOS de emergencia activado. Contactando a los cuidadores inmediatamente.",
+    "speech_not_supported": "API de voz no compatible en este navegador.",
+    "mic_blocked": "Acceso al micrófono bloqueado.",
+    "wake_prompt": "Di \"Hola SmartNav\" o toca el micrófono.",
+    "active_prompt": "¿Cómo puedo ayudar?",
+    "listening_paused": "Escucha pausada. Di la frase de activación o toca el micrófono para reanudar."
+  },
+  "intents": {
+    "front_of_me": ["frente a mí", "entorno", "qué hay adelante", "qué hay alrededor"],
+    "read_text": ["leer", "letrero", "texto", "qué dice esto"],
+    "help_sos": ["ayuda", "sos", "emergencia"],
+    "location": ["dónde estoy", "ubicación", "mi ubicación"],
+    "stop": ["detener", "pausar", "parar"],
+    "launch": ["lanzar", "iniciar asistente", "abrir asistente"],
+    "demo": ["demostración", "probar demo"],
+    "login": ["iniciar sesión", "cuidador"],
+    "admin": ["administración", "admin"]
+  },
+  "wake_words": ["hola smart", "smart nav"]
+}

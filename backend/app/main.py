@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .core.config import settings
-from .api import auth, vision, sos, location, contacts, ws, admin
+from .api import auth, vision, sos, location, contacts, ws, admin, voice
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
@@ -20,6 +20,7 @@ app.include_router(location.router, prefix="/api/v1/location", tags=["location"]
 app.include_router(contacts.router, prefix="/api/v1/contacts", tags=["contacts"])
 app.include_router(ws.router, prefix="/api/v1/ws", tags=["websocket"])
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
+app.include_router(voice.router, prefix="/api/v1/voice", tags=["voice"])
 
 @app.get("/")
 def read_root():
