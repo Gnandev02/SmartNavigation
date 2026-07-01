@@ -31,63 +31,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Live Demo Logic
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
+    const cameraZone = document.getElementById('camera-zone');
+    const cameraPlaceholderIcon = document.getElementById('camera-placeholder-icon');
+    const cameraPlaceholderText = document.getElementById('camera-placeholder-text');
+    const video = document.getElementById('demo-camera-feed');
+    const captureCanvas = document.getElementById('demo-capture-canvas');
     const preview = document.getElementById('demo-preview');
     const btnDetect = document.getElementById('btn-detect');
     const btnOcr = document.getElementById('btn-ocr');
     const output = document.getElementById('demo-output');
 
-    let currentFile = null;
+    let demoStream = null;
+    let hasCapturedImage = false;
 
-    dropZone.addEventListener('click', () => fileInput.click());
-
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        if (e.dataTransfer.files.length) {
-            handleFile(e.dataTransfer.files[0]);
+    window.openDemoCamera = async () => {
+        if (demoStream) return; // Already open
+        try {
+            output.textContent = "Requesting camera...";
+            demoStream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'environment' } 
+            });
+            video.srcObject = demoStream;
+            video.style.display = 'block';
+            cameraPlaceholderIcon.style.display = 'none';
+            cameraPlaceholderText.style.display = 'none';
+            preview.style.display = 'none';
+            output.textContent = "Camera ready. Tap feed to capture.";
+        } catch (err) {
+            output.textContent = "Error: Camera access denied.";
+            console.error(err);
         }
-    });
+    };
 
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length) {
-            handleFile(e.target.files[0]);
-        }
-    });
-
-    function handleFile(file) {
-        if (!file.type.startsWith('image/')) return;
-        currentFile = file;
+    window.captureDemoImage = () => {
+        if (!demoStream) return;
         
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            dropZone.querySelector('h3').style.display = 'none';
-            dropZone.querySelector('p').style.display = 'none';
-            dropZone.querySelector('span').style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-
+        captureCanvas.width = video.videoWidth;
+        captureCanvas.height = video.videoHeight;
+        const ctx = captureCanvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
+        
+        preview.src = captureCanvas.toDataURL('image/png');
+        preview.style.display = 'block';
+        video.style.display = 'none';
+        
+        // Stop stream
+        demoStream.getTracks().forEach(track => track.stop());
+        demoStream = null;
+        
+        hasCapturedImage = true;
         btnDetect.disabled = false;
         btnOcr.disabled = false;
-        output.textContent = "Image loaded. Select an action above.";
-    }
+        output.textContent = "Image captured. Select an action above.";
+        cameraPlaceholderText.textContent = "Tap to Re-Open Camera";
+    };
+
+    cameraZone.addEventListener('click', () => {
+        if (!demoStream && !hasCapturedImage) {
+            window.openDemoCamera();
+        } else if (!demoStream && hasCapturedImage) {
+            // Re-open camera
+            hasCapturedImage = false;
+            btnDetect.disabled = true;
+            btnOcr.disabled = true;
+            window.openDemoCamera();
+        } else if (demoStream) {
+            // Capture
+            window.captureDemoImage();
+        }
+    });
 
     const SpeechSynthesis = window.speechSynthesis;
 
     btnDetect.addEventListener('click', async () => {
-        if (!currentFile) return;
+        if (!hasCapturedImage) return;
         output.textContent = "Loading AI Model (COCO-SSD)...";
         btnDetect.disabled = true;
         
@@ -115,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnOcr.addEventListener('click', async () => {
-        if (!currentFile) return;
+        if (!hasCapturedImage) return;
         output.textContent = "Loading OCR Engine...";
         btnOcr.disabled = true;
         

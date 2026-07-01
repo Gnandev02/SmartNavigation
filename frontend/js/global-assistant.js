@@ -279,6 +279,50 @@ const GlobalAssistant = {
             else if (command.includes("open live demo")) {
                 await this.navigateRoute('#demo', "Opening Live Demo.");
             }
+            else if (command.includes("open camera") || command.includes("start camera")) {
+                if (window.openDemoCamera) {
+                    await this.speak("Opening camera in the demo section.");
+                    const demoEl = document.getElementById('demo');
+                    if (demoEl) demoEl.scrollIntoView({ behavior: 'smooth' });
+                    window.openDemoCamera();
+                } else {
+                    await this.speak("Camera is not available on this page.");
+                }
+            }
+            else if (command.includes("capture image") || command.includes("take photo")) {
+                if (window.captureDemoImage) {
+                    await this.speak("Capturing image.");
+                    window.captureDemoImage();
+                } else {
+                    await this.speak("I cannot capture an image here.");
+                }
+            }
+            else if (command === "object detection") {
+                const btn = document.getElementById('btn-detect');
+                if (btn && !btn.disabled) btn.click();
+                else await this.speak("Object detection is not ready. Open the camera and capture an image first.");
+            }
+            else if (command === "read text") {
+                const btn = document.getElementById('btn-ocr');
+                if (btn && !btn.disabled) btn.click();
+                else await this.speak("Text reader is not ready. Open the camera and capture an image first.");
+            }
+            else if (command.startsWith("click ")) {
+                const targetText = command.replace("click ", "").trim().toLowerCase();
+                let clicked = false;
+                const clickables = document.querySelectorAll('button, a, .btn');
+                for (const el of clickables) {
+                    if (el.textContent && el.textContent.toLowerCase().includes(targetText) && el.offsetParent !== null) {
+                        await this.speak(`Clicking ${el.textContent.trim()}`);
+                        el.click();
+                        clicked = true;
+                        break;
+                    }
+                }
+                if (!clicked) {
+                    await this.speak(`I couldn't find a button for ${targetText}.`);
+                }
+            }
             else if (command.includes("open accessibility")) {
                 await this.navigateRoute('#accessibility', "Opening Accessibility Section.");
             }
