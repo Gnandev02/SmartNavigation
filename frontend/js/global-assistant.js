@@ -233,7 +233,16 @@ const GlobalAssistant = {
             
             this.updateWidgetState('speaking');
 
+            const fallbackTimeout = setTimeout(() => {
+                console.log("[GlobalAssistant] Speech Output Fallback Timeout Triggered");
+                this.autoRestart = true;
+                if (this.isActive) this.startListening();
+                else this.updateWidgetState('idle');
+                resolve();
+            }, Math.max(3000, text.length * 100 + 1000));
+
             utterance.onend = () => {
+                clearTimeout(fallbackTimeout);
                 this.autoRestart = true;
                 if (this.isActive) this.startListening();
                 else this.updateWidgetState('idle');
@@ -241,6 +250,7 @@ const GlobalAssistant = {
             };
             
             utterance.onerror = () => {
+                clearTimeout(fallbackTimeout);
                 this.autoRestart = true;
                 if (this.isActive) this.startListening();
                 else this.updateWidgetState('idle');
@@ -288,14 +298,14 @@ const GlobalAssistant = {
             }
             else if (command.includes("start detection") || command.includes("launch website") || command.includes("launch web app") || command.includes("open website")) {
                 // If not on assistant.html, go there
-                if (!window.location.pathname.includes('assistant.html')) {
+                if (!window.location.pathname.includes('assistant')) {
                     await this.navigateRoute('assistant.html', "Detection started. Opening camera.");
                 } else {
                     await this.speak("Detection is already running.");
                 }
             }
             else if (command.includes("read sign") || command.includes("read text") || command.includes("scan nearby text")) {
-                if (window.location.pathname.includes('assistant.html') && window.processReadTextCommand) {
+                if (window.location.pathname.includes('assistant') && window.processReadTextCommand) {
                     await window.processReadTextCommand();
                 } else {
                     await this.navigateRoute('assistant.html', "Opening camera to read text. Please point it at the sign.");
@@ -345,7 +355,7 @@ const GlobalAssistant = {
         
         if (path.includes('caregiver.html')) return "on the Caregiver Portal";
         if (path.includes('admin.html')) return "on the Admin Dashboard";
-        if (path.includes('assistant.html')) return "on the Detection Page";
+        if (path.includes('assistant')) return "on the Detection Page";
         
         if (hash === '#features') return "viewing the Features Section";
         if (hash === '#demo') return "viewing the Live Demo Section";
