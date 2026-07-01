@@ -142,29 +142,28 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Preprocess image for better OCR
             const canvas = document.createElement('canvas');
-            canvas.width = img.naturalWidth || img.width;
-            canvas.height = img.naturalHeight || img.height;
+            // Upscale the image by 2.5x for Tesseract to see details better
+            const scale = 2.5;
+            canvas.width = (img.naturalWidth || img.width) * scale;
+            canvas.height = (img.naturalHeight || img.height) * scale;
             const ctx = canvas.getContext('2d');
+            
+            // Disable smoothing for sharper edges when upscaling
+            ctx.imageSmoothingEnabled = false;
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-            for (let i = 0; i < data.length; i += 4) {
-                // Convert to grayscale
-                const luma = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
-                
-                // Apply contrast
-                const contrast = 1.5; // Increase contrast
-                let val = ((luma / 255 - 0.5) * contrast + 0.5) * 255;
-                val = Math.min(Math.max(val, 0), 255);
-                
-                data[i] = val;
-                data[i + 1] = val;
-                data[i + 2] = val;
-            }
-            ctx.putImageData(imageData, 0, 0);
+            // Note: We remove the naive grayscale/contrast adjustment because 
+            // colored text on colored backgrounds (like red on blue) can end up 
+            // with the same luma (brightness), making the text completely invisible.
 
-            const result = await Tesseract.recognize(canvas, 'eng');
+            // PSM 11 is "Sparse text. Find as much text as possible in no particular order."
+            // This is usually much better for random signboards and objects than default (3).
+            const worker = await Tesseract.createWorker('eng');
+            await worker.setParameters({
+                tessedit_pageseg_mode: Tesseract.PSM ? Tesseract.PSM.SPARSE_TEXT : '11',
+            });
+            const result = await worker.recognize(canvas);
+            await worker.terminate();
             
             const text = result.data.text.trim();
             let message = "I couldn't read any text.";
