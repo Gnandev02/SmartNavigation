@@ -23,17 +23,16 @@
     "voice_title": "100% Voice Control",
     "voice_desc": "Interact entirely hands-free. Just say \"Hey SmartNav, what's in front of me?\"",
     "sos_title": "Emergency SOS",
-    "sos_desc": "Instantly share your live location and alert caregivers via the connected dashboard during emergencies."
+    "sos_desc": "Instantly share your live location during emergencies."
   },
   "footer": {
     "desc": "Empowering visually impaired individuals to navigate the world independently with state-of-the-art AI.",
     "platform": "Platform",
     "voice_assistant": "Voice Assistant",
-    "caregiver_dashboard": "Caregiver Dashboard",
     "company": "Company",
     "accessibility_statement": "Accessibility Statement",
     "admin_portal": "Admin Portal",
-    "rights": "© 2026 SmartNav Accessibility. All rights reserved."
+    "rights": "Â© 2026 SmartNav Accessibility. All rights reserved."
   },
   "assistant": {
     "idle_msg": "Tap the mic to begin.",
@@ -41,11 +40,10 @@
     "stopping": "Stopping active assistance. I am still listening for the wake word.",
     "launching_app": "Launching Web App.",
     "opening_demo": "Opening Live Demo.",
-    "opening_caregiver": "Opening Caregiver Login.",
     "opening_admin": "Opening Admin page.",
     "error_command": "I didn't catch that command. You can ask me to Launch Web App, Try Live Demo, or ask for help.",
     "error_exec": "Sorry, I encountered an error executing that command.",
-    "sos_activated": "Emergency SOS activated. Contacting caregivers immediately.",
+    "sos_activated": "Emergency SOS activated.",
     "speech_not_supported": "Speech APIs not supported on this browser.",
     "mic_blocked": "Microphone access blocked.",
     "wake_prompt": "Say \"Hey SmartNav\" or tap mic.",
@@ -53,15 +51,67 @@
     "listening_paused": "Listening paused. Say wake phrase or tap mic to resume."
   },
   "intents": {
-    "front_of_me": ["front of me", "surroundings", "what's ahead", "what is around"],
-    "read_text": ["read", "sign", "text", "what does this say"],
-    "help_sos": ["help", "sos", "emergency"],
-    "location": ["where am i", "location", "my location"],
-    "stop": ["stop", "pause"],
-    "launch": ["launch web app", "start assistant", "open assistant"],
-    "demo": ["live demo", "try live demo"],
-    "login": ["login", "caregiver"],
-    "admin": ["admin"]
+    "front_of_me": [
+      "front of me",
+      "surroundings",
+      "what's ahead",
+      "what is around",
+      "object detection",
+      "detect objects",
+      "detect object",
+      "detection",
+      "what's in front of me",
+      "what is in front of me"
+    ],
+    "read_text": [
+      "read",
+      "sign",
+      "text",
+      "what does this say",
+      "read text",
+      "read the text",
+      "text recognition",
+      "ocr"
+    ],
+    "help_sos": [
+      "help",
+      "sos",
+      "emergency"
+    ],
+    "location": [
+      "where am i",
+      "location",
+      "my location"
+    ],
+    "stop": [
+      "stop",
+      "pause"
+    ],
+    "launch": [
+      "launch web app",
+      "start assistant",
+      "open assistant",
+      "open camera",
+      "camera",
+      "start camera",
+      "launch camera",
+      "go to camera",
+      "open the camera",
+      "turn on camera"
+    ],
+    "demo": [
+      "live demo",
+      "try live demo"
+    ],
+    "login": [
+      "login"
+    ],
+    "admin": [
+      "admin"
+    ]
   },
-  "wake_words": ["hey smart", "smart nav"]
+  "wake_words": [
+    "hey smart",
+    "smart nav"
+  ]
 }

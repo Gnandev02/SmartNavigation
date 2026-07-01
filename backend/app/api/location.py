@@ -31,7 +31,7 @@ def get_current_location(
     current_user: User = Depends(get_current_active_user),
     db: Session = Depends(get_db)
 ):
-    # Ensure current user is caregiver/admin or the user themselves (omitted for brevity)
+    # Ensure current user is admin or the user themselves (omitted for brevity)
     last_location = db.query(History).filter(
         History.user_id == user_id, 
         History.event_type == "location"

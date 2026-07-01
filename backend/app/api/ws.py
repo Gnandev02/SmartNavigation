@@ -7,7 +7,7 @@ router = APIRouter()
 
 class ConnectionManager:
     def __init__(self):
-        # Maps user email to their active websocket connections (could be multiple if caregiver is logged in on multiple tabs)
+        # Maps user email to their active websocket connections
         self.active_connections: Dict[str, List[WebSocket]] = {}
 
     async def connect(self, websocket: WebSocket, email: str):

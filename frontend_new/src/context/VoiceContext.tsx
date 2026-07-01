@@ -41,43 +41,60 @@ export const VoiceProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setState('Processing');
     setFeedback(t('assistant.processing'));
     setTranscript(cmd);
-
     try {
-      // Use the *current* translation language to check intents 
+      // Use the *current* translation language to check intents, with English fallback
       // (This works perfectly because Whisper just changed i18n.language before calling this!)
-      const matchIntent = (intentKeys: string[]) => intentKeys.some(key => cmd.includes(key.toLowerCase()));
+      const matchIntent = (intentKeys: string[], fallbackKeys: string[]) => {
+        const cmdLower = cmd.toLowerCase();
+        return intentKeys.some(key => cmdLower.includes(key.toLowerCase())) ||
+               fallbackKeys.some(key => cmdLower.includes(key.toLowerCase()));
+      };
       
       const intentsFront = t('intents.front_of_me', { returnObjects: true }) as string[];
-      const intentsRead = t('intents.read_text', { returnObjects: true }) as string[];
-      const intentsSos = t('intents.help_sos', { returnObjects: true }) as string[];
-      const intentsLocation = t('intents.location', { returnObjects: true }) as string[];
-      const intentsStop = t('intents.stop', { returnObjects: true }) as string[];
-      const intentsLaunch = t('intents.launch', { returnObjects: true }) as string[];
-      const intentsDemo = t('intents.demo', { returnObjects: true }) as string[];
-      const intentsLogin = t('intents.login', { returnObjects: true }) as string[];
-      const intentsAdmin = t('intents.admin', { returnObjects: true }) as string[];
+      const intentsFrontEn = t('intents.front_of_me', { lng: 'en', returnObjects: true }) as string[];
 
-      if (matchIntent(intentsFront)) {
+      const intentsRead = t('intents.read_text', { returnObjects: true }) as string[];
+      const intentsReadEn = t('intents.read_text', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsSos = t('intents.help_sos', { returnObjects: true }) as string[];
+      const intentsSosEn = t('intents.help_sos', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsLocation = t('intents.location', { returnObjects: true }) as string[];
+      const intentsLocationEn = t('intents.location', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsStop = t('intents.stop', { returnObjects: true }) as string[];
+      const intentsStopEn = t('intents.stop', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsLaunch = t('intents.launch', { returnObjects: true }) as string[];
+      const intentsLaunchEn = t('intents.launch', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsDemo = t('intents.demo', { returnObjects: true }) as string[];
+      const intentsDemoEn = t('intents.demo', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsLogin = t('intents.login', { returnObjects: true }) as string[];
+      const intentsLoginEn = t('intents.login', { lng: 'en', returnObjects: true }) as string[];
+
+      const intentsAdmin = t('intents.admin', { returnObjects: true }) as string[];
+      const intentsAdminEn = t('intents.admin', { lng: 'en', returnObjects: true }) as string[];
+
+      if (matchIntent(intentsFront, intentsFrontEn)) {
         setIntent({ action: 'vision_detect', timestamp: Date.now() });
-      } else if (matchIntent(intentsRead)) {
+      } else if (matchIntent(intentsRead, intentsReadEn)) {
         setIntent({ action: 'vision_ocr', timestamp: Date.now() });
-      } else if (matchIntent(intentsSos)) {
+      } else if (matchIntent(intentsSos, intentsSosEn)) {
         triggerSos();
-      } else if (matchIntent(intentsLocation)) {
+      } else if (matchIntent(intentsLocation, intentsLocationEn)) {
         setIntent({ action: 'location_get', timestamp: Date.now() });
-      } else if (matchIntent(intentsStop)) {
+      } else if (matchIntent(intentsStop, intentsStopEn)) {
         speak(t('assistant.stopping'));
         setIsActiveListening(false);
-      } else if (matchIntent(intentsLaunch)) {
+      } else if (matchIntent(intentsLaunch, intentsLaunchEn)) {
         speak(t('assistant.launching_app'));
         setTimeout(() => window.location.href = '/assistant', 1500);
-      } else if (matchIntent(intentsDemo)) {
+      } else if (matchIntent(intentsDemo, intentsDemoEn)) {
         speak(t('assistant.opening_demo'));
         setTimeout(() => window.location.href = '/#demo', 1500);
-      } else if (matchIntent(intentsLogin)) {
-        speak(t('assistant.opening_caregiver'));
-        setTimeout(() => window.location.href = '/caregiver', 1500);
-      } else if (matchIntent(intentsAdmin)) {
+      } else if (matchIntent(intentsAdmin, intentsAdminEn)) {
         speak(t('assistant.opening_admin'));
         setTimeout(() => window.location.href = '/admin', 1500);
       } else if (cmd.startsWith('run command ')) {
@@ -296,7 +313,33 @@ export const VoiceProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      
+      // Dynamically select mimeType based on browser support (fixes Safari/iOS incompatibility)
+      let options: MediaRecorderOptions = {};
+      let mimeType = 'audio/webm';
+      let extension = 'webm';
+      
+      if (typeof MediaRecorder.isTypeSupported === 'function') {
+        if (MediaRecorder.isTypeSupported('audio/webm')) {
+          options = { mimeType: 'audio/webm' };
+          mimeType = 'audio/webm';
+          extension = 'webm';
+        } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          options = { mimeType: 'audio/mp4' };
+          mimeType = 'audio/mp4';
+          extension = 'mp4';
+        } else if (MediaRecorder.isTypeSupported('audio/ogg')) {
+          options = { mimeType: 'audio/ogg' };
+          mimeType = 'audio/ogg';
+          extension = 'ogg';
+        } else if (MediaRecorder.isTypeSupported('audio/wav')) {
+          options = { mimeType: 'audio/wav' };
+          mimeType = 'audio/wav';
+          extension = 'wav';
+        }
+      }
+      
+      const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
       const chunks: BlobPart[] = [];
 
@@ -305,14 +348,15 @@ export const VoiceProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       };
 
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+        const actualMimeType = mediaRecorder.mimeType || mimeType;
+        const audioBlob = new Blob(chunks, { type: actualMimeType });
         stream.getTracks().forEach(track => track.stop());
         
         setState('Processing');
         setFeedback("Transcribing and Detecting Language...");
         
         const formData = new FormData();
-        formData.append('file', audioBlob, 'command.webm');
+        formData.append('file', audioBlob, `command.${extension}`);
         
         try {
           const res = await fetch('http://localhost:8000/api/v1/voice/transcribe', {

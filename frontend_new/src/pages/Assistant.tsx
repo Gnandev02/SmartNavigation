@@ -25,7 +25,7 @@ const Assistant: React.FC = () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'environment' },
-          audio: true
+          audio: false
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -93,7 +93,7 @@ const Assistant: React.FC = () => {
     <div className="assistant-body">
       <div id="app" className="assistant-container">
         {/* Live Camera Background */}
-        <video ref={videoRef} id="camera-feed" autoPlay playsInline className="assistant-video-bg"></video>
+        <video ref={videoRef} id="camera-feed" autoPlay playsInline muted className="assistant-video-bg"></video>
         <canvas id="capture-canvas" style={{ display: 'none' }}></canvas>
 
         {/* UI Overlay */}

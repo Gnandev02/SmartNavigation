@@ -29,7 +29,7 @@ def trigger_sos(
     db.commit()
     db.refresh(history)
     
-    # Broadcast to caregivers (simplified to broadcast to all connected dashboard users for demo)
+    # Broadcast to connected dashboard users (e.g. admins)
     asyncio.create_task(manager.broadcast_to_user("test@test.com", {"type": "sos", "data": description}))
     
     return history
@@ -39,6 +39,6 @@ def get_sos_history(
     current_user: User = Depends(get_current_active_user),
     db: Session = Depends(get_db)
 ):
-    # Caregivers/Admins might need to see all, but for now just returning user's own history
+    # Admins might need to see all, but for now just returning user's own history
     events = db.query(History).filter(History.user_id == current_user.id, History.event_type == "sos").order_by(History.timestamp.desc()).all()
     return events

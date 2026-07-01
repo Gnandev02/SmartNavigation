@@ -34,7 +34,7 @@ app.post('/api/sos', async (req, res) => {
         longitude
       }
     });
-    // Broadcast SOS alert to connected caregivers
+    // Broadcast SOS alert to connected clients
     io.emit('sos_triggered', alert);
     res.json({ success: true, alert });
   } catch (error) {
@@ -77,7 +77,7 @@ app.post('/api/auth/login', async (req, res) => {
         data: {
           email,
           passwordHash: password, // In a real app, hash this with bcrypt!
-          role: email.includes('admin') ? 'ADMIN' : 'CAREGIVER'
+          role: email.includes('admin') ? 'ADMIN' : 'USER'
         }
       });
     }

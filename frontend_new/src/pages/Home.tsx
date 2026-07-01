@@ -23,7 +23,7 @@ const Home: React.FC = () => {
             <li><a href="#demo">{t('nav.live_demo')}</a></li>
             <li><a href="#accessibility">{t('nav.accessibility')}</a></li>
             <li><Link to="/assistant" className="btn btn-primary">{t('nav.start_assistant')}</Link></li>
-            <li><Link to="/caregiver" className="btn btn-secondary">{t('nav.login')}</Link></li>
+            <li><Link to="/login" className="btn btn-secondary">{t('nav.login')}</Link></li>
             <li><LanguageSwitcher /></li>
           </ul>
         </div>
@@ -98,8 +98,8 @@ const Home: React.FC = () => {
               <h4>{t('footer.platform')}</h4>
               <ul>
                 <li><Link to="/assistant">{t('footer.voice_assistant')}</Link></li>
-                <li><Link to="/caregiver">{t('footer.caregiver_dashboard')}</Link></li>
                 <li><a href="#features">{t('nav.features')}</a></li>
+                <li><a href="#demo">{t('nav.live_demo')}</Link></li>
               </ul>
             </div>
             <div className="footer-col">

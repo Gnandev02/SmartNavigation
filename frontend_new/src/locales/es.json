@@ -1,67 +1,115 @@
 {
   "nav": {
-    "features": "Características",
-    "live_demo": "Demostración",
+    "features": "CaracterÃ­sticas",
+    "live_demo": "DemostraciÃ³n",
     "accessibility": "Accesibilidad",
     "start_assistant": "Iniciar Asistente",
-    "login": "Iniciar Sesión"
+    "login": "Iniciar SesiÃ³n"
   },
   "hero": {
     "wcag": "WCAG 2.2 AA",
     "voice_first": "Voz Primero",
     "title": "Navega el Mundo con Independencia",
-    "subtitle": "Un asistente avanzado impulsado por IA diseñado para personas con discapacidad visual. Entiende tu entorno de manera segura usando solo tu teléfono y voz.",
+    "subtitle": "Un asistente avanzado impulsado por IA diseÃ±ado para personas con discapacidad visual. Entiende tu entorno de manera segura usando solo tu telÃ©fono y voz.",
     "launch_web_app": "Lanzar App Web",
-    "try_live_demo": "Probar Demostración"
+    "try_live_demo": "Probar DemostraciÃ³n"
   },
   "features": {
     "title": "Poderosas Capacidades de IA",
-    "detection_title": "Detección en Tiempo Real",
-    "detection_desc": "Identifica instantáneamente personas, puertas, escaleras y obstáculos cotidianos en tu camino usando visión por computadora avanzada.",
+    "detection_title": "DetecciÃ³n en Tiempo Real",
+    "detection_desc": "Identifica instantÃ¡neamente personas, puertas, escaleras y obstÃ¡culos cotidianos en tu camino usando visiÃ³n por computadora avanzada.",
     "ocr_title": "Lectura de Letreros",
-    "ocr_desc": "El reconocimiento óptico avanzado lee señales de dirección, números de habitación y advertencias en voz alta.",
+    "ocr_desc": "El reconocimiento Ã³ptico avanzado lee seÃ±ales de direcciÃ³n, nÃºmeros de habitaciÃ³n y advertencias en voz alta.",
     "voice_title": "Control 100% por Voz",
-    "voice_desc": "Interactúa de manera totalmente manos libres. Solo di \"Hola SmartNav, ¿qué hay frente a mí?\"",
+    "voice_desc": "InteractÃºa de manera totalmente manos libres. Solo di \"Hola SmartNav, Â¿quÃ© hay frente a mÃ­?\"",
     "sos_title": "SOS de Emergencia",
-    "sos_desc": "Comparte instantáneamente tu ubicación en vivo y alerta a tus cuidadores a través del panel conectado durante emergencias."
+    "sos_desc": "Instantly share your live location during emergencies."
   },
   "footer": {
     "desc": "Empoderando a las personas con discapacidad visual para navegar el mundo de manera independiente con IA de vanguardia.",
     "platform": "Plataforma",
     "voice_assistant": "Asistente de Voz",
-    "caregiver_dashboard": "Panel de Cuidadores",
-    "company": "Compañía",
-    "accessibility_statement": "Declaración de Accesibilidad",
-    "admin_portal": "Portal de Administración",
-    "rights": "© 2026 SmartNav Accesibilidad. Todos los derechos reservados."
+    "company": "CompaÃ±Ã­a",
+    "accessibility_statement": "DeclaraciÃ³n de Accesibilidad",
+    "admin_portal": "Portal de AdministraciÃ³n",
+    "rights": "Â© 2026 SmartNav Accesibilidad. Todos los derechos reservados."
   },
   "assistant": {
-    "idle_msg": "Toca el micrófono para empezar.",
+    "idle_msg": "Toca el micrÃ³fono para empezar.",
     "processing": "Procesando...",
-    "stopping": "Deteniendo asistencia activa. Sigo escuchando la palabra de activación.",
+    "stopping": "Deteniendo asistencia activa. Sigo escuchando la palabra de activaciÃ³n.",
     "launching_app": "Lanzando App Web.",
-    "opening_demo": "Abriendo demostración en vivo.",
-    "opening_caregiver": "Abriendo inicio de sesión para cuidadores.",
-    "opening_admin": "Abriendo página de administración.",
-    "error_command": "No entendí ese comando. Puedes pedirme Lanzar App Web, Probar Demostración o pedir ayuda.",
-    "error_exec": "Lo siento, encontré un error al ejecutar ese comando.",
-    "sos_activated": "SOS de emergencia activado. Contactando a los cuidadores inmediatamente.",
+    "opening_demo": "Abriendo demostraciÃ³n en vivo.",
+    "opening_admin": "Abriendo pÃ¡gina de administraciÃ³n.",
+    "error_command": "No entendÃ­ ese comando. Puedes pedirme Lanzar App Web, Probar DemostraciÃ³n o pedir ayuda.",
+    "error_exec": "Lo siento, encontrÃ© un error al ejecutar ese comando.",
+    "sos_activated": "Emergency SOS activated.",
     "speech_not_supported": "API de voz no compatible en este navegador.",
-    "mic_blocked": "Acceso al micrófono bloqueado.",
-    "wake_prompt": "Di \"Hola SmartNav\" o toca el micrófono.",
-    "active_prompt": "¿Cómo puedo ayudar?",
-    "listening_paused": "Escucha pausada. Di la frase de activación o toca el micrófono para reanudar."
+    "mic_blocked": "Acceso al micrÃ³fono bloqueado.",
+    "wake_prompt": "Di \"Hola SmartNav\" o toca el micrÃ³fono.",
+    "active_prompt": "Â¿CÃ³mo puedo ayudar?",
+    "listening_paused": "Escucha pausada. Di la frase de activaciÃ³n o toca el micrÃ³fono para reanudar."
   },
   "intents": {
-    "front_of_me": ["frente a mí", "entorno", "qué hay adelante", "qué hay alrededor"],
-    "read_text": ["leer", "letrero", "texto", "qué dice esto"],
-    "help_sos": ["ayuda", "sos", "emergencia"],
-    "location": ["dónde estoy", "ubicación", "mi ubicación"],
-    "stop": ["detener", "pausar", "parar"],
-    "launch": ["lanzar", "iniciar asistente", "abrir asistente"],
-    "demo": ["demostración", "probar demo"],
-    "login": ["iniciar sesión", "cuidador"],
-    "admin": ["administración", "admin"]
+    "front_of_me": [
+      "frente a mÃ­",
+      "entorno",
+      "quÃ© hay adelante",
+      "quÃ© hay alrededor",
+      "detecciÃ³n de objetos",
+      "detectar objetos",
+      "objetos",
+      "detecciÃ³n"
+    ],
+    "read_text": [
+      "leer",
+      "letrero",
+      "texto",
+      "quÃ© dice esto",
+      "leer texto",
+      "lectura de texto",
+      "reconocimiento de texto"
+    ],
+    "help_sos": [
+      "ayuda",
+      "sos",
+      "emergencia"
+    ],
+    "location": [
+      "dÃ³nde estoy",
+      "ubicaciÃ³n",
+      "mi ubicaciÃ³n"
+    ],
+    "stop": [
+      "detener",
+      "pausar",
+      "parar"
+    ],
+    "launch": [
+      "lanzar",
+      "iniciar asistente",
+      "abrir asistente",
+      "abrir cÃ¡mara",
+      "cÃ¡mara",
+      "iniciar cÃ¡mara",
+      "open camera",
+      "camera"
+    ],
+    "demo": [
+      "demostraciÃ³n",
+      "probar demo"
+    ],
+    "login": [
+      "iniciar sesiÃ³n",
+      "cuidador"
+    ],
+    "admin": [
+      "administraciÃ³n",
+      "admin"
+    ]
   },
-  "wake_words": ["hola smart", "smart nav"]
+  "wake_words": [
+    "hola smart",
+    "smart nav"
+  ]
 }

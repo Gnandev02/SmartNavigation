@@ -326,9 +326,7 @@ const GlobalAssistant = {
             else if (command.includes("open accessibility")) {
                 await this.navigateRoute('#accessibility', "Opening Accessibility Section.");
             }
-            else if (command.includes("open caregiver portal")) {
-                await this.navigateRoute('caregiver.html', "Opening Caregiver Portal.");
-            }
+
             else if (command.includes("go home")) {
                 await this.navigateRoute('index.html', "Going to Home Page.");
             }
@@ -397,7 +395,7 @@ const GlobalAssistant = {
         const path = window.location.pathname;
         const hash = window.location.hash;
         
-        if (path.includes('caregiver.html')) return "on the Caregiver Portal";
+
         if (path.includes('admin.html')) return "on the Admin Dashboard";
         if (path.includes('assistant')) return "on the Detection Page";
         
@@ -473,7 +471,7 @@ const GlobalAssistant = {
     },
 
     async triggerSOS() {
-        await this.speak("Emergency SOS activated. Sending alert and sharing location to caregivers.");
+        await this.speak("Emergency SOS activated. Sending alert and sharing location.");
         // Mock SOS send
         console.log("[SOS] Alert sent.");
     }

@@ -1,67 +1,115 @@
 {
   "nav": {
-    "features": "Fonctionnalités",
-    "live_demo": "Démo en Direct",
-    "accessibility": "Accessibilité",
-    "start_assistant": "Démarrer l'Assistant",
+    "features": "FonctionnalitÃ©s",
+    "live_demo": "DÃ©mo en Direct",
+    "accessibility": "AccessibilitÃ©",
+    "start_assistant": "DÃ©marrer l'Assistant",
     "login": "Connexion"
   },
   "hero": {
     "wcag": "WCAG 2.2 AA",
-    "voice_first": "Priorité à la Voix",
-    "title": "Naviguez le Monde avec Indépendance",
-    "subtitle": "Un assistant avancé basé sur l'IA conçu pour les malvoyants. Comprenez votre environnement en toute sécurité à l'aide de votre smartphone et de votre voix.",
+    "voice_first": "PrioritÃ© Ã  la Voix",
+    "title": "Naviguez le Monde avec IndÃ©pendance",
+    "subtitle": "Un assistant avancÃ© basÃ© sur l'IA conÃ§u pour les malvoyants. Comprenez votre environnement en toute sÃ©curitÃ© Ã  l'aide de votre smartphone et de votre voix.",
     "launch_web_app": "Lancer l'App",
-    "try_live_demo": "Essayer la Démo"
+    "try_live_demo": "Essayer la DÃ©mo"
   },
   "features": {
-    "title": "Capacités d'IA Puissantes",
-    "detection_title": "Détection en Temps Réel",
-    "detection_desc": "Identifie instantanément les personnes, les portes, les escaliers et les obstacles quotidiens sur votre chemin à l'aide de la vision par ordinateur avancée.",
+    "title": "CapacitÃ©s d'IA Puissantes",
+    "detection_title": "DÃ©tection en Temps RÃ©el",
+    "detection_desc": "Identifie instantanÃ©ment les personnes, les portes, les escaliers et les obstacles quotidiens sur votre chemin Ã  l'aide de la vision par ordinateur avancÃ©e.",
     "ocr_title": "Lecture de Panneaux",
-    "ocr_desc": "La reconnaissance optique de caractères avancée lit à haute voix les panneaux de direction, les numéros de chambre et les avertissements.",
-    "voice_title": "Contrôle Vocal à 100%",
-    "voice_desc": "Interagissez entièrement en mains libres. Dites simplement \"Hé SmartNav, qu'y a-t-il devant moi ?\"",
+    "ocr_desc": "La reconnaissance optique de caractÃ¨res avancÃ©e lit Ã  haute voix les panneaux de direction, les numÃ©ros de chambre et les avertissements.",
+    "voice_title": "ContrÃ´le Vocal Ã  100%",
+    "voice_desc": "Interagissez entiÃ¨rement en mains libres. Dites simplement \"HÃ© SmartNav, qu'y a-t-il devant moi ?\"",
     "sos_title": "SOS d'Urgence",
-    "sos_desc": "Partagez instantanément votre position en direct et alertez les soignants via le tableau de bord connecté en cas d'urgence."
+    "sos_desc": "Instantly share your live location during emergencies."
   },
   "footer": {
-    "desc": "Permettre aux personnes malvoyantes de naviguer dans le monde de manière indépendante avec une IA de pointe.",
+    "desc": "Permettre aux personnes malvoyantes de naviguer dans le monde de maniÃ¨re indÃ©pendante avec une IA de pointe.",
     "platform": "Plateforme",
     "voice_assistant": "Assistant Vocal",
-    "caregiver_dashboard": "Tableau de Bord Soignant",
     "company": "Entreprise",
-    "accessibility_statement": "Déclaration d'Accessibilité",
+    "accessibility_statement": "DÃ©claration d'AccessibilitÃ©",
     "admin_portal": "Portail d'Administration",
-    "rights": "© 2026 Accessibilité SmartNav. Tous droits réservés."
+    "rights": "Â© 2026 AccessibilitÃ© SmartNav. Tous droits rÃ©servÃ©s."
   },
   "assistant": {
     "idle_msg": "Touchez le micro pour commencer.",
     "processing": "Traitement...",
-    "stopping": "Arrêt de l'assistance active. J'écoute toujours le mot de réveil.",
+    "stopping": "ArrÃªt de l'assistance active. J'Ã©coute toujours le mot de rÃ©veil.",
     "launching_app": "Lancement de l'Application Web.",
-    "opening_demo": "Ouverture de la démo en direct.",
-    "opening_caregiver": "Ouverture de la connexion soignant.",
+    "opening_demo": "Ouverture de la dÃ©mo en direct.",
     "opening_admin": "Ouverture de la page d'administration.",
-    "error_command": "Je n'ai pas compris cette commande. Vous pouvez me demander de Lancer l'Application Web, d'Essayer la Démo en Direct, ou demander de l'aide.",
-    "error_exec": "Désolé, j'ai rencontré une erreur lors de l'exécution de cette commande.",
-    "sos_activated": "SOS d'urgence activé. Contacter les soignants immédiatement.",
+    "error_command": "Je n'ai pas compris cette commande. Vous pouvez me demander de Lancer l'Application Web, d'Essayer la DÃ©mo en Direct, ou demander de l'aide.",
+    "error_exec": "DÃ©solÃ©, j'ai rencontrÃ© une erreur lors de l'exÃ©cution de cette commande.",
+    "sos_activated": "Emergency SOS activated.",
     "speech_not_supported": "Les API vocales ne sont pas prises en charge sur ce navigateur.",
-    "mic_blocked": "Accès au microphone bloqué.",
-    "wake_prompt": "Dites \"Hé SmartNav\" ou touchez le micro.",
+    "mic_blocked": "AccÃ¨s au microphone bloquÃ©.",
+    "wake_prompt": "Dites \"HÃ© SmartNav\" ou touchez le micro.",
     "active_prompt": "Comment puis-je aider ?",
-    "listening_paused": "Écoute en pause. Dites la phrase de réveil ou touchez le micro pour reprendre."
+    "listening_paused": "Ã‰coute en pause. Dites la phrase de rÃ©veil ou touchez le micro pour reprendre."
   },
   "intents": {
-    "front_of_me": ["devant moi", "environnement", "qu'y a-t-il devant", "autour de moi"],
-    "read_text": ["lire", "panneau", "texte", "que dit ceci"],
-    "help_sos": ["aide", "sos", "urgence"],
-    "location": ["où suis-je", "position", "ma position"],
-    "stop": ["arrêter", "pause"],
-    "launch": ["lancer", "démarrer l'assistant", "ouvrir l'assistant"],
-    "demo": ["démo", "essayer la démo"],
-    "login": ["connexion", "soignant"],
-    "admin": ["admin", "administration"]
+    "front_of_me": [
+      "devant moi",
+      "environnement",
+      "qu'y a-t-il devant",
+      "autour de moi",
+      "dÃ©tection d'objets",
+      "dÃ©tecter les objets",
+      "objets",
+      "dÃ©tection"
+    ],
+    "read_text": [
+      "lire",
+      "panneau",
+      "texte",
+      "que dit ceci",
+      "lire le texte",
+      "lecture de texte",
+      "reconnaissance de texte"
+    ],
+    "help_sos": [
+      "aide",
+      "sos",
+      "urgence"
+    ],
+    "location": [
+      "oÃ¹ suis-je",
+      "position",
+      "ma position"
+    ],
+    "stop": [
+      "arrÃªter",
+      "pause"
+    ],
+    "launch": [
+      "lancer",
+      "dÃ©marrer l'assistant",
+      "ouvrir l'assistant",
+      "ouvrir la camÃ©ra",
+      "camÃ©ra",
+      "lancer la camÃ©ra",
+      "open camera",
+      "camera"
+    ],
+    "demo": [
+      "dÃ©mo",
+      "essayer la dÃ©mo"
+    ],
+    "login": [
+      "connexion",
+      "soignant"
+    ],
+    "admin": [
+      "admin",
+      "administration"
+    ]
   },
-  "wake_words": ["hé smart", "smart nav", "salut smart"]
+  "wake_words": [
+    "hÃ© smart",
+    "smart nav",
+    "salut smart"
+  ]
 }

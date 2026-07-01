@@ -7,7 +7,7 @@ SmartNav is an AI Voice Navigation Assistant platform for visually impaired user
 - Signboard Reading
 - Voice Navigation
 - Emergency SOS
-- Caregiver and Admin Dashboards
+- Admin Dashboard
 
 ## Architecture
 - **Frontend**: Vanilla HTML/CSS/JS focusing on accessibility
