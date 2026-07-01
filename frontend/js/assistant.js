@@ -264,6 +264,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             const ctx = captureCanvas.getContext('2d');
             ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
             
+            // Preprocess image for better OCR
+            const imageData = ctx.getImageData(0, 0, captureCanvas.width, captureCanvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                // Convert to grayscale
+                const luma = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+                
+                // Apply contrast
+                const contrast = 1.5; // Increase contrast
+                let val = ((luma / 255 - 0.5) * contrast + 0.5) * 255;
+                val = Math.min(Math.max(val, 0), 255);
+                
+                data[i] = val;
+                data[i + 1] = val;
+                data[i + 2] = val;
+            }
+            ctx.putImageData(imageData, 0, 0);
+            
             console.log("[OCR] Processing image...");
             const { data: { text } } = await tesseractWorker.recognize(captureCanvas);
             

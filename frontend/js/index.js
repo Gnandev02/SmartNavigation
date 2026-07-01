@@ -139,7 +139,32 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const img = document.getElementById('demo-preview');
             output.textContent = "Reading text from image...";
-            const result = await Tesseract.recognize(img, 'eng');
+            
+            // Preprocess image for better OCR
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                // Convert to grayscale
+                const luma = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+                
+                // Apply contrast
+                const contrast = 1.5; // Increase contrast
+                let val = ((luma / 255 - 0.5) * contrast + 0.5) * 255;
+                val = Math.min(Math.max(val, 0), 255);
+                
+                data[i] = val;
+                data[i + 1] = val;
+                data[i + 2] = val;
+            }
+            ctx.putImageData(imageData, 0, 0);
+
+            const result = await Tesseract.recognize(canvas, 'eng');
             
             const text = result.data.text.trim();
             let message = "I couldn't read any text.";
